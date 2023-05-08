@@ -14,16 +14,16 @@ const DonationProgress: FC<DonationProgressProps> = ({
 }) => {
   const progress = parseFloat(formatEther(current).substring(0, 5)) / parseFloat(formatEther(target).substring(0, 5)) * 100;
   return (
-    <div className="w-full relative rounded-full py-3 bg-white overflow-hidden">
-      <div
-        className="absolute left-0 top-0 h-full bg-primary"
-        style={{ width: `${progress}%` }}
-      />
-      <p className="text-on_primary font-primetime relative z-4 text-center block w-full font-bold uppercase">
-          {totalDonations.toString()}{" "}
-        <span>donation{totalDonations !== BigInt("1") && "s"}</span>
-      </p>
-    </div>
+      <div className="w-full relative rounded-full py-3 bg-white overflow-hidden">
+        <div
+          className="absolute left-0 top-0 h-full bg-primary"
+          style={{ width: `${progress}%` }}
+        />
+        <p className="text-on_primary font-primetime relative z-4 text-center block w-full font-bold uppercase">
+            {totalDonations.toString()}{" "}
+          <span>donation{totalDonations !== BigInt("1") && "s"}</span>
+        </p>
+      </div>
   );
 };
 

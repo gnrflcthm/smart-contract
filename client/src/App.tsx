@@ -1,4 +1,4 @@
-import { Nav, Project, Donate } from "./components";
+import { Nav, Project, Donate, Donators } from "./components";
 import Web3Provider from "./utilities/Web3Provider";
 
 function App() {
@@ -12,7 +12,10 @@ function App() {
           </h1>
           <div className="flex flex-col lg:flex-row justify-center lg:justify-start space-x-6 ">
             <Project />
-            <Donate />
+            <div className="flex flex-col">
+              <Donate />
+              <Donators />
+            </div>
           </div>
         </div>
       </main>
