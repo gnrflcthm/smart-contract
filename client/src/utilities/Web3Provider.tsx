@@ -1,18 +1,55 @@
 import { Contract, BrowserProvider, parseUnits } from "ethers";
-import { FC, PropsWithChildren, createContext } from "react";
+import { FC, PropsWithChildren, createContext, useMemo } from "react";
 import ksContract from "../contracts/KickStarter.json";
 
+export type CurrencyUnits = "wei" | "gwei" | "ether";
+
 interface IWeb3Context {
-  deposit?: (name: string) => Promise<void>;
-  getAccumulated?: () => Promise<bigint>;
-  computeRemaining?: () => Promise<bigint>;
+  connectWallet: () => Promise<void>;
+  deposit: (
+    name: string,
+    amount: string | number,
+    units: CurrencyUnits
+  ) => Promise<void>;
+  getAccumulated: () => Promise<bigint>;
+  computeRemaining: () => Promise<bigint>;
+  getTotalDonations: () => Promise<bigint>;
+  hasSmartWallet: boolean;
 }
 
-export const Web3Context = createContext<IWeb3Context>({});
+export const Web3Context = createContext<IWeb3Context>({
+  connectWallet: async () => {
+    return;
+  },
+  deposit: async () => {
+    return;
+  },
+  getAccumulated: async () => {
+    return BigInt("0");
+  },
+  computeRemaining: async () => {
+    return BigInt("0");
+  },
+  getTotalDonations: async () => {
+    return BigInt("0");
+  },
+  hasSmartWallet: false,
+});
+
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
-  const deposit = async (name: string) => {
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+    }
+  };
+
+  const deposit = async (
+    name: string,
+    amount: number | string,
+    units: string
+  ) => {
     if (window.ethereum) {
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
@@ -21,7 +58,7 @@ const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
 
       try {
         const transaction = await contract.deposit(name, {
-          value: parseUnits("0.05", "ether"),
+          value: parseUnits(amount.toString(), units),
         });
 
         await transaction.wait();
@@ -61,8 +98,37 @@ const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
     return remaining;
   };
 
+  const hasSmartWallet = useMemo(
+    () => window.ethereum !== undefined,
+    [window.ethereum]
+  );
+
+  const getTotalDonations = async () => {
+    let totalDonations = BigInt("0");
+    if (window.ethereum) {
+      const provider = new BrowserProvider(window.ethereum);
+      const contract = new Contract(contractAddress, ksContract.abi, provider);
+
+      try {
+        totalDonations = await contract.getTotalDonations();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return totalDonations;
+  };
+
   return (
-    <Web3Context.Provider value={{ deposit, getAccumulated, computeRemaining }}>
+    <Web3Context.Provider
+      value={{
+        connectWallet,
+        deposit,
+        getAccumulated,
+        computeRemaining,
+        getTotalDonations,
+        hasSmartWallet,
+      }}
+    >
       {children}
     </Web3Context.Provider>
   );

@@ -45,6 +45,10 @@ contract KickStarter {
         }
     }
 
+    function getTotalDonations() external view returns (uint) {
+        return donations.length;
+    }
+
     function getAccumulated() public view returns (uint) {
         return address(this).balance;
     }
