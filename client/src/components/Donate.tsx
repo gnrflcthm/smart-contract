@@ -51,75 +51,10 @@ const Donate = () => {
   }, []);
 
   return (
-    <form
-      className="flex-1 rounded-md p-8 border-8 border-primary lg:w-1/3 w-[90%] space-y-6 m-auto"
-      onSubmit={submitForm}
-    >
-      <h1 className="font-primetime text-primary text-xl">
-        If you are interested in supporting us, send us your donations down
-        below.
-      </h1>
-      <DonationProgress
-        current={accumulated}
-        target={total}
-        totalDonations={donations}
-      />
-      {hasSmartWallet ? (
-        <>
-          <div>
-            <input
-              type="name"
-              className="w-full px-4 py-2 font-primetime outline-none bg-transparent text-white border-2 border-primary disabled:hidden"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={isAnonymous}
-            />
-          </div>
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="anonymous"
-              checked={isAnonymous}
-              onClick={() => setIsAnonymous((val) => !val)}
-              className="accent-primary"
-              id="anonymous"
-            />
-            <label
-              htmlFor="anonymous"
-              className="text-white font-primetime pb-1"
-            >
-              Anonymous
-            </label>
-          </div>
-          <input
-            type="text"
-            name="amount"
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <select
-            name="units"
-            onChange={(e) => setUnits(e.target.value as CurrencyUnits)}
-          >
-            <option value="wei">Wei</option>
-            <option value="gwei">Gwei</option>
-            <option value="ether">Ether</option>
-          </select>
-          <button
-            type="submit"
-            className="border-4 border-primary text-primary bg-transparent font-bold w-full p-4 pb-5 font-primetime text-xl hover:text-on_primary hover:bg-primary"
-          >
-            Donate
-          </button>
-        </>
-      ) : (
-        <>
-          <h1 className="text-center text-primary font-primetime">
-            Please Install MetaMask{" "}
-          </h1>
-        </>
-      )}
-    </form>
+    <section className="bg-primary_bg rounded-[2rem] p-8 h-fit space-y-8">
+      <p className="text-lg text-white">If you are interested in supporting this project, send your donations down below.</p>
+      <DonationProgress current={accumulated} target={total} totalDonations={donations} />
+    </section>
   );
 };
 

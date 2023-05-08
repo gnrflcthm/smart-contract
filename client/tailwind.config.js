@@ -4,13 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary": "#C36E8E",
-        "on_primary": "#181717",
-        "light": "#EEEEEE"
+        "primary": "#DA542B",
+        "primary_bg": "#2B2727",
+        "dark": "#141414",
+        "light": "#7C7C7C"
       },
-      fontFamily: {
-        primetime: ['"PRIMETIME"', 'sans-serif']
-      }
     },
   },
   plugins: [],
