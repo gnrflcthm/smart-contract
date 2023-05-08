@@ -6,13 +6,13 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Project = () => {
   return (
-    <section className="flex-flex-col w-3/5">
-      <img src={Banner} alt="Logo" className="rounded-[2rem]" />
+    <section className="flex-flex-col w-3/5 min-[320px]:w-full">
+      <img src={Banner} alt="Logo" className="rounded-[2rem] min-[320px]:w-full" />
       <div className="p-8">
         <div className="flex flex-row items-center">
           <img src={BossPaayos} width={'40px'} />
           <img src={SwiftFix} width={'40px'} />
-          <p className="mx-3 text-white text-xl">SwiftFix is organizing this fundraiser to help BossPaayos flourish.</p>
+          <p className="mx-3 text-white xl:text-xl">SwiftFix is organizing this fundraiser to help BossPaayos flourish.</p>
           <FontAwesomeIcon icon={faCheckCircle} style={{color: "#1f991d"}} />
         </div>
         <div className="flex justify-start items-center text-white text-opacity-50 space-x-8 text-xl py-6 border-y-[1px] border-light my-8">
