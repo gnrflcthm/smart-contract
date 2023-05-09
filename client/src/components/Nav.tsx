@@ -18,11 +18,7 @@ const Nav = () => {
                 <div className="lg:hidden flex items-center">
                     <button className="text-white hover:text-gray-400 focus:outline-none" onClick={() => setIsOpen((val) => !val)}>
                         <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
-                            {isOpen ? (
-                                <path fillRule="evenodd" d="M4.75 6.75H19.25V8.25H4.75V6.75ZM4.75 11.75H19.25V13.25H4.75V11.75ZM4.75 16.75H19.25V18.25H4.75V16.75Z"></path>
-                            ) : (
-                                <path fillRule="evenodd" d="M4.75 6.75H19.25V8.25H4.75V6.75ZM4.75 11.75H19.25V13.25H4.75V11.75ZM4.75 16.75H19.25V18.25H4.75V16.75Z"></path>
-                            )}
+                            <path fillRule="evenodd" d="M4.75 6.75H19.25V8.25H4.75V6.75ZM4.75 11.75H19.25V13.25H4.75V11.75ZM4.75 16.75H19.25V18.25H4.75V16.75Z"></path>
                         </svg>
                     </button>
                 </div>
