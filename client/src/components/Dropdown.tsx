@@ -32,6 +32,7 @@ const Dropdown: FC<DropdownProps> = ({
       }}
     >
       <button
+        type="button"
         onClick={() => setIsOpen((val) => !val)}
         className="w-full rounded-r-lg bg-primary text-white text-lg p-3 border border-light my-2 text-start flex justify-start space-x-2 items-center"
       >
@@ -44,12 +45,14 @@ const Dropdown: FC<DropdownProps> = ({
           isOpen ? "flex" : "hidden"
         } flex-col absolute top-[101%] right-0 w-fit lg:w-full rounded-[1rem] divide-solid divide-light divide-y border border-light bg-[#1E1E1E] text-white overflow-hidden`}
       >
-        {Object.keys(choices).map((key) => (
+        {Object.keys(choices).map((key, i) => (
           <button
+            type="button"
             onClick={() => {
               setCurrent(key);
               setIsOpen(false);
             }}
+            key={i}
             className="py-1 px-3 text-lg text-start text-white text-opacity-50 hover:bg-primary hover:text-white transition-colors duration-250 flex"
           >
             <FontAwesomeIcon icon={faEthereum} className="mr-2" />

@@ -1,4 +1,4 @@
-import Donator from "../assets/donator.png"
+import Donator from "../assets/donator.png";
 
 const Donators = () => {
   return (
@@ -13,7 +13,7 @@ const Donators = () => {
               <p className="text-white">3 ETH</p>
               <p>⚪</p>
               <p className="text-white">5 secs</p>
-            </div>    
+            </div>
           </div>
         </div>
         <div className="flex flex-row items-center py-4 border-b border-light">
@@ -24,13 +24,15 @@ const Donators = () => {
               <p className="text-white">3 ETH</p>
               <p>⚪</p>
               <p className="text-white">5 secs</p>
-            </div>    
+            </div>
           </div>
         </div>
-        <button className="w-full bg-primary rounded-xl text-white text-lg p-3 border border-primary hover:text-primary hover:bg-transparent transition-all duration-250 my-2">SEE ALL</button>
+        <button className="w-full bg-primary rounded-xl text-white text-lg p-3 border border-primary hover:text-primary hover:bg-transparent transition-all duration-250 my-2">
+          SEE ALL
+        </button>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Donators
+export default Donators;

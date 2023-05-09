@@ -1,5 +1,12 @@
 import { Contract, BrowserProvider, parseUnits } from "ethers";
-import { FC, PropsWithChildren, createContext, useMemo } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useMemo,
+  useEffect,
+  useState,
+} from "react";
 import ksContract from "../contracts/KickStarter.json";
 
 export type CurrencyUnits = "wei" | "gwei" | "ether";
@@ -11,9 +18,11 @@ interface IWeb3Context {
     amount: string | number,
     units: CurrencyUnits
   ) => Promise<void>;
-  getAccumulated: () => Promise<bigint>;
-  computeRemaining: () => Promise<bigint>;
-  getTotalDonations: () => Promise<bigint>;
+  totalDonations: bigint;
+  accumulated: bigint;
+  remaining: bigint;
+  target: bigint;
+  targetReached: boolean;
   hasSmartWallet: boolean;
 }
 
@@ -24,21 +33,55 @@ export const Web3Context = createContext<IWeb3Context>({
   deposit: async () => {
     return;
   },
-  getAccumulated: async () => {
-    return BigInt("0");
-  },
-  computeRemaining: async () => {
-    return BigInt("0");
-  },
-  getTotalDonations: async () => {
-    return BigInt("0");
-  },
+  accumulated: BigInt("0"),
+  remaining: BigInt("0"),
+  target: BigInt("0"),
+  totalDonations: BigInt("0"),
+  targetReached: false,
   hasSmartWallet: false,
 });
 
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
+  const [totalDonations, setTotalDonations] = useState(BigInt("0"));
+  const [accumulated, setAccumulated] = useState(BigInt("0"));
+  const [remaining, setRemaining] = useState(BigInt("0"));
+  const [targetReached, setTargetReached] = useState(false);
+
+  const target = useMemo(
+    () => accumulated + remaining,
+    [accumulated, remaining]
+  );
+
+  useEffect(() => {
+    if (window.ethereum) {
+      const provider = new BrowserProvider(window.ethereum);
+      const contract = new Contract(contractAddress, ksContract.abi, provider);
+
+      Promise.all([
+        contract.getAccumulated(),
+        contract.computeRemaining(),
+        contract.getTotalDonations(),
+        contract.isTargetReached(),
+      ])
+        .then(([acc, rem, don, tar]) => {
+          setAccumulated(acc);
+          setRemaining(rem);
+          setTotalDonations(don);
+          console.log(tar);
+          setTargetReached(tar);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
+  const handleDonation = (name: string, value: bigint) => {
+    console.log(name, value);
+    setAccumulated((val) => val + value);
+    setRemaining((val) => val - value);
+  };
+
   const connectWallet = async () => {
     if (window.ethereum) {
       await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -61,6 +104,8 @@ const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
           value: parseUnits(amount.toString(), units),
         });
 
+        await contract.on("DonationReceived", handleDonation);
+
         await transaction.wait();
       } catch (error) {
         console.log(error);
@@ -68,62 +113,19 @@ const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const getAccumulated = async () => {
-    let accumulated = BigInt("0");
-    if (window.ethereum) {
-      const provider = new BrowserProvider(window.ethereum);
-      const contract = new Contract(contractAddress, ksContract.abi, provider);
-
-      try {
-        accumulated = await contract.computeRemaining();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return accumulated;
-  };
-
-  const computeRemaining = async () => {
-    let remaining = BigInt("0");
-    if (window.ethereum) {
-      const provider = new BrowserProvider(window.ethereum);
-      const contract = new Contract(contractAddress, ksContract.abi, provider);
-
-      try {
-        remaining = await contract.computeRemaining();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return remaining;
-  };
-
   const hasSmartWallet = useMemo(() => window.ethereum !== undefined, []);
-
-  const getTotalDonations = async () => {
-    let totalDonations = BigInt("0");
-    if (window.ethereum) {
-      const provider = new BrowserProvider(window.ethereum);
-      const contract = new Contract(contractAddress, ksContract.abi, provider);
-
-      try {
-        totalDonations = await contract.getTotalDonations();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return totalDonations;
-  };
 
   return (
     <Web3Context.Provider
       value={{
         connectWallet,
         deposit,
-        getAccumulated,
-        computeRemaining,
-        getTotalDonations,
         hasSmartWallet,
+        accumulated,
+        remaining,
+        target,
+        targetReached,
+        totalDonations,
       }}
     >
       {children}

@@ -7,6 +7,7 @@ contract KickStarter {
 
     uint targetValue;
     bool private isOpen;
+    bool targetReached;
 
     struct Donation {
         string name;
@@ -29,17 +30,24 @@ contract KickStarter {
         targetValue = _targetValue;
         owner = payable(msg.sender);
         isOpen = true;
+        targetReached = false;
+    }
+
+    function isTargetReached() public view returns (bool) {
+        return targetReached;
     }
 
     function deposit(string calldata name) external payable whileOpen {
-        donations.push(Donation({
-            name: name,
-            senderAdress: msg.sender,
-            donationAmmount: msg.value
-        }));
+        donations.push(
+            Donation({
+                name: name,
+                senderAdress: msg.sender,
+                donationAmmount: msg.value
+            })
+        );
 
         emit DonationReceived(name, msg.value);
-        
+
         if (address(this).balance >= targetValue) {
             cashOut();
         }
@@ -59,7 +67,12 @@ contract KickStarter {
 
     function cashOut() internal {
         isOpen = false;
+        targetReached = true;
         owner.transfer(address(this).balance);
         emit TargetReached();
     }
+
+    receive() external payable {}
+
+    fallback() external payable {}
 }
