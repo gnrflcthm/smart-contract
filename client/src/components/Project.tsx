@@ -6,9 +6,9 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Project = () => {
   return (
-    <section className="flex-flex-col w-3/5 min-[320px]:w-full">
+    <section className="flex-flex-col lg:w-3/5 w-full">
       <img src={Banner} alt="Logo" className="rounded-[2rem] min-[320px]:w-full" />
-      <div className="p-8">
+      <div className="py-8 lg:px-8 px-6">
         <div className="flex flex-row items-center">
           <img src={BossPaayos} width={'40px'} />
           <img src={SwiftFix} width={'40px'} />
@@ -17,7 +17,7 @@ const Project = () => {
         </div>
         <div className="flex justify-start items-center text-white text-opacity-50 space-x-8 text-xl py-6 border-y-[1px] border-light my-8">
           <p>Created last May 08, 2023</p>
-          <p>⚪</p>
+          <p>•</p>
           <p className="underline">Start-Up Business</p>
         </div>
         <div className="flex flex-col space-y-4">

@@ -27,7 +27,7 @@ const Donators = () => {
             </div>    
           </div>
         </div>
-        <button className="w-full bg-primary rounded-xl text-white text-lg p-3 border border-light my-2">SEE ALL</button>
+        <button className="w-full bg-primary rounded-xl text-white text-lg p-3 border border-primary hover:text-primary hover:bg-transparent transition-all duration-250 my-2">SEE ALL</button>
       </div>
     </section>
   )

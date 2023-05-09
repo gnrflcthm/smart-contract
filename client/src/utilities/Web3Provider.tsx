@@ -98,10 +98,7 @@ const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
     return remaining;
   };
 
-  const hasSmartWallet = useMemo(
-    () => window.ethereum !== undefined,
-    [window.ethereum]
-  );
+  const hasSmartWallet = useMemo(() => window.ethereum !== undefined, []);
 
   const getTotalDonations = async () => {
     let totalDonations = BigInt("0");
