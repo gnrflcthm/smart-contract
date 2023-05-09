@@ -4,8 +4,8 @@ import Logo from '../assets/logo.png'
 const Nav = () => {
     const [isOpen, setIsOpen] = useState(false)
     return (
-        <nav className="flex flex-col justify-between px-8 lg:px-32 py-4 items-center sticky top-0 w-full bg-dark border-b-[1px] border-light z-50">
-            <div className='flex flex-row justify-between w-full'>
+        <nav className="flex flex-col justify-between py-4 items-center sticky top-0 w-full bg-dark border-b-[1px] border-light z-50">
+            <div className='flex flex-row justify-between w-full px-8 lg:px-32'>
                 <div className="text-white">
                     <img src={Logo} alt="Logo" width={'80px'} />
                 </div>
@@ -23,11 +23,11 @@ const Nav = () => {
                     </button>
                 </div>
             </div>
-            <div className={`${isOpen ? 'flex' : 'hidden'} lg:hidden flex-col space-y-4`}>
-                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white rounded-full px-6 py-4">Home</a>
-                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white rounded-full px-6 py-4">About Us</a>
-                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white rounded-full px-6 py-4">Contact Us</a>
-                <a href="#" className="transition-colors duration-250 border border-primary hover:bg-transparent font-medium text-white rounded-full bg-primary px-6 py-4">Start a Fundraiser</a>
+            <div className={`${isOpen ? 'flex' : 'hidden'} absolute top-full z-50 bg-dark items-stretch lg:hidden flex-col pt-6 w-full`}>
+                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white px-6 py-4">Home</a>
+                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white px-6 py-4">About Us</a>
+                <a href="#" className="transition-colors duration-250 hover:text-white hover:bg-primary font-medium text-white px-6 py-4">Contact Us</a>
+                <a href="#" className="transition-colors duration-250 border border-primary hover:bg-transparent font-medium text-white bg-primary px-6 py-4">Start a Fundraiser</a>
             </div>
         </nav>
     )
