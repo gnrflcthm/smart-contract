@@ -1,13 +1,13 @@
-# Sample Hardhat Project
+# KickStarter Smart Contract
+Smart Contract project for crowdsourcing funds.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+# How To Deploy Contract
+1. Install Contract Dependencies using `npm install` in the root directory.
+2. Compile the contract using the command `npx hardhat compile`
+3. Run the Test network using the command `npx hardhat node`
+4. In a separate terminal, Deploy the contract using the `npx hardhat run scripts/deploy.ts --network localhost`
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+# How To Run The Client
+1. Change your working directory from the root directory to the client folder (`cd client`)
+2. Install dependencies using `npm install`
+3. Run the client using `npm run dev` in a separate terminal
